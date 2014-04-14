@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Andy's Lemonade</title>
+  <meta name="description" content="Ecommerce Demo">
+  <link rel="stylesheet" type="text/css" href="static/css/main.css">
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-25868527-5', 'auto');
+    ga('send', 'pageview');
+  </script>
+</head>
+<body>
+    <h1>Andy's Lemonade Stand</h1>
+    <img src="static/img/lemonade-glass.jpg" width="420">
+    <h2>Lemonade costs $5. All sales are final!</h2>
+    <button id="submit1">Click here to purchase Lemonade!</button>
+    <div id="result"></div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script>
+      $('#submit1').on('click', submitPurchase);
+      function submitPurchase() {
+        if(ga && ga.getAll) {
+          ga(function(tracker) {
+            var clientId = tracker.get('clientId');
+            makePostRequest(clientId);
+          });
+        }
+        else {
+          makePostRequest(null);
+        }
+      }
+      function makePostRequest(clientId) {
+        var posting = $.post('/purchase', {productId: '1234', 
+                                           clientId: clientId});
+        posting.done(function() {
+          $('#result').append( '<p>Transaction Successful</p>' );
+        });
+      }
+    </script>
+</body>
+</html>
